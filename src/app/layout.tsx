@@ -1,8 +1,17 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { fontVariables } from "./fonts";
+import { ICONS, SOCIAL } from "@/experience/config/assetManifest";
+import { BOOT_SCRIPT } from "@/experience/lib/capabilities";
+
+export const viewport: Viewport = {
+  themeColor: "#072B29",
+};
 
 export const metadata: Metadata = {
+  // Same origin as openGraph.url below; makes relative social image URLs absolute.
+  metadataBase: new URL("https://excelsacafe.qa"),
   title: "Excelsa Speciality Coffee (اكسالسا كافي) | Doha, Qatar",
   description:
     "Excelsa Speciality Coffee in Doha, Qatar. Artisanal single-origin brews, house-roasted specialty beans, and bespoke 24/7 event and home majlis coffee catering.",
@@ -25,6 +34,7 @@ export const metadata: Metadata = {
     siteName: "Excelsa Speciality Coffee",
     locale: "en_QA",
     type: "website",
+    images: [{ url: SOCIAL.ogImage.path, width: 1200, height: 630, alt: "Excelsa Speciality Coffee" }],
   },
 };
 
@@ -34,9 +44,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" dir="ltr" className="scroll-smooth">
+    <html lang="en" dir="ltr" className={`scroll-smooth ${fontVariables}`} suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/logos/excelsa-logo-cream.svg" type="image/svg+xml" />
+        {/* Decides before first paint whether the 3D intro shows (prevents flashes). Only sets
+            data-* attributes on <html>; the site works identically if it never runs. */}
+        <script dangerouslySetInnerHTML={{ __html: BOOT_SCRIPT }} />
+        {/* Official Excelsa mark (cropped from the brand guide logo - see docs/BRAND_REFERENCE.md) */}
+        <link rel="icon" href={ICONS.faviconIco.path} sizes="any" />
+        <link rel="icon" href={ICONS.favicon32.path} type="image/png" sizes="32x32" />
+        <link rel="apple-touch-icon" href={ICONS.appleTouch.path} />
         {/* Schema.org CafeOrCoffeeShop JSON-LD */}
         <script
           type="application/ld+json"

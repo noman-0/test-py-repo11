@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+/* Fonts are self-hosted via next/font (src/app/fonts.ts) - same families/weights as the former
+   Google Fonts @import, without the render-blocking request. */
 
 @tailwind base;
 @tailwind components;
@@ -13,9 +14,10 @@
   --color-muted-green: #A7C4BF;
   --color-muted-cream: #3B5C59;
   --color-accent-gold: #C8A96A;
-  --font-regista: 'Playfair Display', serif;
-  --font-jakarta: 'Plus Jakarta Sans', sans-serif;
-  --font-ibm-arabic: 'IBM Plex Sans Arabic', sans-serif;
+  /* Display slot: Regista (brand guide) when licensed, Playfair Display until then - see fonts.ts */
+  --font-regista: var(--font-display-nf, 'Playfair Display'), 'Playfair Display', serif;
+  --font-jakarta: var(--font-sans-nf, 'Plus Jakarta Sans'), 'Plus Jakarta Sans', sans-serif;
+  --font-ibm-arabic: var(--font-arabic-nf, 'IBM Plex Sans Arabic'), 'IBM Plex Sans Arabic', sans-serif;
 }
 
 /* Base Body and Defaults */
@@ -56,3 +58,244 @@ html[dir="rtl"] * {
   background-color: #C8A96A;
   color: #072B29;
 }
+
+/* Existing tailwindcss-animate entrance utilities: honour reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-in, .animate-out { animation: none !important; }
+}
+
+/* Mono labels: Arabic falls back to IBM Plex Sans Arabic (mono has no Arabic glyphs). */
+html[dir="rtl"] .font-mono { font-family: var(--font-ibm-arabic); }
+
+.xp-sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ==========================================================================
+   Immersive single-screen experience (src/experience).
+   EVERYTHING below is scoped to html[data-3d] - the classic site is untouched
+   when 3D is off, unsupported or reduced motion is preferred.
+   ========================================================================== */
+:root {
+  --xp-header-h: 104px;
+  --xp-bar-h: 56px;
+  --xp-panel-w: min(660px, 48vw);
+  --xp-gutter: 56px;
+}
+@media (max-width: 1023px) { :root { --xp-panel-w: min(600px, 62vw); --xp-gutter: 40px; } }
+@media (max-width: 767px)  { :root { --xp-header-h: 82px; --xp-panel-w: 100vw; --xp-gutter: 20px; --xp-bar-h: 52px; } }
+
+html[data-3d], html[data-3d] body { height: 100%; overflow: hidden; overscroll-behavior: none; }
+html[data-3d] body { background: #072B29; }
+
+/* canvas */
+.xp-canvas {
+  position: fixed; inset: 0; z-index: 0;
+  opacity: 0; transition: opacity 0.9s ease;
+  background: #072B29;
+  pointer-events: auto; touch-action: none; cursor: grab;
+}
+.xp-canvas[data-ready="true"] { opacity: 1; }
+.xp-canvas canvas { display: block; width: 100% !important; height: 100% !important; }
+.xp-canvas::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgb(4 26 25 / 0.75), transparent 22%, transparent 70%, rgb(4 26 25 / 0.85)),
+    radial-gradient(ellipse 85% 80% at 60% 45%, transparent 50%, rgb(4 26 25 / 0.6) 100%);
+}
+
+/* the shell is SSR'd but only shown in immersive mode */
+.xp-shell { display: none; }
+html[data-3d] .xp-shell { display: block; position: fixed; inset: 0; z-index: 30; pointer-events: none; color: #FEFADD; }
+html[data-3d] .xp-shell :is(button, a, [role="region"]) { pointer-events: auto; }
+/* start-side scrim keeps the area card legible over any scene */
+.xp-shell::before {
+  content: ""; position: fixed; inset: 0; pointer-events: none;
+  background: linear-gradient(to right, rgb(4 26 25 / 0.8), rgb(4 26 25 / 0.35) 38%, transparent 62%);
+}
+html[dir="rtl"] .xp-shell::before { background: linear-gradient(to left, rgb(4 26 25 / 0.8), rgb(4 26 25 / 0.35) 38%, transparent 62%); }
+
+.xp-card {
+  position: absolute;
+  inset-inline-start: var(--xp-gutter);
+  top: var(--xp-header-h);
+  bottom: var(--xp-bar-h);
+  max-width: min(620px, 46vw);
+  display: flex; flex-direction: column; justify-content: center;
+  padding-block: 16px 28px;
+  transition: opacity 0.5s ease, transform 0.6s cubic-bezier(.2,.7,.2,1);
+  animation: xp-card-in 0.8s cubic-bezier(.2,.7,.2,1) both;
+}
+.xp-card-title { font-size: clamp(2.4rem, min(7.6vh, 6.2vw), 5.4rem); }
+@keyframes xp-card-in { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+.xp-shell[data-traveling="true"] .xp-card { opacity: 0.4; }
+html[data-panel="open"] .xp-card { opacity: 0; transform: translateY(12px); pointer-events: none; visibility: hidden; }
+@media (max-width: 767px) {
+  .xp-shell::before, html[dir="rtl"] .xp-shell::before { background: linear-gradient(to top, rgb(4 26 25 / 0.94), rgb(4 26 25 / 0.6) 45%, transparent 75%); }
+  .xp-card { top: auto; bottom: calc(var(--xp-bar-h) + 10px); inset-inline-end: var(--xp-gutter); max-width: none; justify-content: flex-end; }
+  .xp-card-title { font-size: clamp(2.2rem, 10vw, 3rem); }
+  .xp-card-body { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .xp-shell:has(.xp-poi) .xp-card { opacity: 0; visibility: hidden; }
+}
+
+/* points of interest */
+.xp-pins { position: absolute; inset: 0; pointer-events: none; }
+/* display (not visibility): each pin sets its own inline visibility every frame */
+.xp-shell[data-traveling="true"] .xp-pins, html[data-panel="open"] .xp-pins { display: none; }
+.xp-pin {
+  position: absolute; top: 0; left: 0;
+  display: flex; align-items: center; gap: 10px;
+  padding: 0; background: none; border: 0; color: #FEFADD; will-change: transform;
+}
+.xp-pin-dot {
+  position: relative; display: block; width: 18px; height: 18px; border-radius: 999px;
+  border: 1.5px solid rgb(254 250 221 / 0.9);
+  background: rgb(4 26 25 / 0.45);
+  box-shadow: 0 2px 12px rgb(0 0 0 / 0.45);
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+.xp-pin-dot::before {
+  content: ""; position: absolute; inset: 4.5px; border-radius: 999px; background: #FEFADD;
+  transition: background 0.2s ease;
+}
+.xp-pin-dot::after {
+  content: ""; position: absolute; inset: -1.5px; border-radius: 999px;
+  border: 1px solid rgb(254 250 221 / 0.5);
+  animation: xp-ping 2.6s ease-out infinite;
+}
+@keyframes xp-ping { from { transform: scale(1); opacity: 0.8; } to { transform: scale(2.2); opacity: 0; } }
+.xp-pin-label {
+  padding: 6px 10px; background: rgb(4 26 25 / 0.9); border: 1px solid rgb(200 169 106 / 0.45);
+  font-family: var(--font-mono-nf), ui-monospace, monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+  white-space: nowrap; opacity: 0; transform: translateX(-4px); line-height: 14px; transition: opacity 0.18s ease, transform 0.18s ease; pointer-events: none;
+}
+html[dir="rtl"] .xp-pin-label { font-family: var(--font-ibm-arabic); letter-spacing: normal; transform: translateX(4px); }
+.xp-pin:hover .xp-pin-label, .xp-pin:focus-visible .xp-pin-label, .xp-pin[data-active="true"] .xp-pin-label { opacity: 1; transform: none; }
+.xp-pin:hover .xp-pin-dot, .xp-pin[data-active="true"] .xp-pin-dot { border-color: #C8A96A; transform: scale(1.15); }
+.xp-pin:hover .xp-pin-dot::before, .xp-pin[data-active="true"] .xp-pin-dot::before { background: #C8A96A; }
+.xp-pin:focus-visible { outline: none; }
+.xp-pin:focus-visible .xp-pin-dot { box-shadow: 0 0 0 3px #072B29, 0 0 0 5px #C8A96A; }
+/* the button is just the 32px target centred on its anchor; the label floats beside it */
+.xp-pin { width: 32px; height: 32px; justify-content: center; }
+.xp-pin-label { position: absolute; top: 50%; inset-inline-start: 36px; margin-top: -13px; }
+
+.xp-poi {
+  position: absolute;
+  inset-inline-end: var(--xp-gutter);
+  bottom: calc(var(--xp-bar-h) + 24px);
+  width: min(380px, calc(100vw - 2 * var(--xp-gutter)));
+  max-height: calc(100vh - var(--xp-header-h) - var(--xp-bar-h) - 48px);
+  overflow-y: auto;
+  padding: 22px;
+  background: rgb(4 26 25 / 0.95);
+  border: 1px solid rgb(254 250 221 / 0.12);
+  border-top: 1px solid rgb(200 169 106 / 0.6);
+  animation: xp-card-in 0.45s cubic-bezier(.2,.7,.2,1) both;
+}
+html[data-panel="open"] .xp-poi { display: none; }
+@media (max-width: 767px) { .xp-poi { inset-inline: 12px; width: auto; bottom: calc(var(--xp-bar-h) + 10px); max-height: 60vh; } }
+.xp-poi-action {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  min-height: 46px; padding: 0 16px;
+  font-family: var(--font-mono-nf), ui-monospace, monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+  border: 1px solid rgb(254 250 221 / 0.18); color: #FEFADD; transition: background 0.2s ease, border-color 0.2s ease;
+}
+html[dir="rtl"] .xp-poi-action { font-family: var(--font-ibm-arabic); letter-spacing: normal; }
+.xp-poi-action:hover { border-color: #C8A96A; }
+.xp-poi-action[data-primary="true"] { background: #FEFADD; color: #072B29; border-color: #FEFADD; }
+.xp-poi-action[data-primary="true"]:hover { background: #fff; }
+
+/* bottom bar */
+.xp-bar {
+  position: absolute; inset-inline: 0; bottom: 0; height: var(--xp-bar-h);
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding-inline: var(--xp-gutter);
+  border-top: 1px solid rgb(254 250 221 / 0.08);
+}
+.xp-bar-status { display: none; }
+@media (min-width: 768px) { .xp-bar-status { display: flex; } }
+.xp-bar-hint { display: none; }
+@media (min-width: 1024px) { .xp-bar-hint { display: block; } }
+html[data-panel="open"] .xp-bar { display: none; }
+
+/* reading view: <main> slides in on the start side */
+.xp-panelbar { display: none; }
+html[data-3d] main {
+  position: fixed;
+  z-index: 40;
+  top: 0; bottom: 0;
+  inset-inline-start: calc(-1 * var(--xp-panel-w) - 40px);
+  width: var(--xp-panel-w);
+  min-height: 0 !important;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-top: calc(var(--xp-header-h) + 48px);
+  background: #051F1E !important;
+  border-inline-end: 1px solid rgb(254 250 221 / 0.1);
+  visibility: hidden;
+  transition: inset-inline-start 0.65s cubic-bezier(.2,.7,.2,1), visibility 0s linear 0.65s;
+}
+html[data-3d][data-panel="open"] main { inset-inline-start: 0; visibility: visible; transition-delay: 0s; }
+html[data-3d] main > * { display: none !important; }
+html[data-3d][data-area="story"] main > #story,
+html[data-3d][data-area="menu"] main > #menu,
+html[data-3d][data-area="catering"] main > #catering,
+html[data-3d][data-area="atmosphere"] main > #atmosphere,
+html[data-3d][data-area="hub"] main > #hub,
+html[data-3d][data-area="hub"] main > footer { display: block !important; }
+html[data-3d] main > section { padding: 8px 0 72px !important; background: transparent !important; border: 0 !important; }
+html[data-3d] main > section > div { padding-inline: clamp(20px, 3.2vw, 44px); }
+html[data-3d] main > footer { padding-inline: clamp(20px, 3.2vw, 44px) !important; padding-bottom: 48px !important; }
+/* multi-column layouts stack to one column inside the reading view */
+html[data-3d] main .xp-cols { grid-template-columns: minmax(0, 1fr) !important; }
+html[data-3d][data-panel="open"] .xp-panelbar {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  position: fixed; z-index: 45; top: var(--xp-header-h);
+  inset-inline-start: 0; width: var(--xp-panel-w); height: 48px;
+  padding-inline: clamp(20px, 3.2vw, 44px);
+  background: #051F1E; border-bottom: 1px solid rgb(254 250 221 / 0.08); border-inline-end: 1px solid rgb(254 250 221 / 0.1);
+  pointer-events: auto;
+}
+@media (max-width: 767px) { html[data-3d][data-panel="open"] .xp-header { background: #051F1E !important; } }
+/* an existing site dialog (TastingNotesModal) must sit above the header */
+html[data-3d][data-modal="open"] main { z-index: 95; visibility: visible; }
+/* classic-only chrome */
+html[data-3d] aside[aria-label="Quick Action Bar"] { display: none !important; }
+html[data-3d] .xp-header { background: transparent; border-color: transparent; }
+
+@media (prefers-reduced-motion: reduce) {
+  .xp-card, .xp-poi { animation: none; transition: none; }
+  html[data-3d] main { transition: none; }
+  .xp-pin-dot::after { animation: none; display: none; }
+}
+
+/* Brand intro overlay (only when the boot script marked html[data-intro]). */
+.xp-intro {
+  position: fixed; inset: 0; z-index: 60; display: none;
+  flex-direction: column; align-items: center; justify-content: center; gap: 28px;
+  background: radial-gradient(ellipse 80% 70% at 50% 40%, #0E3F3C, #072B29 70%);
+}
+html[data-intro="pending"] .xp-intro, html[data-intro="playing"] .xp-intro { display: flex; }
+html[data-intro="done"] .xp-intro { display: flex; opacity: 0; pointer-events: none; transition: opacity 0.7s ease; }
+html[data-intro="done"] .xp-intro > * { visibility: hidden; }
+.xp-intro-logo { height: min(57vh, 124vw); aspect-ratio: 801 / 1183; background: center / contain no-repeat; }
+.xp-intro-bar {
+  width: 120px; height: 1px;
+  background: linear-gradient(90deg, transparent, #FEFADD, transparent) 0 0 / 50% 100% no-repeat, rgb(254 250 221 / 0.15);
+  animation: xp-bar 1.4s ease-in-out infinite;
+}
+.xp-intro-text { color: #A7C4BF; font-family: var(--font-mono-nf), ui-monospace, monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; }
+html[dir="rtl"] .xp-intro-text { font-family: var(--font-ibm-arabic); letter-spacing: normal; }
+@keyframes xp-bar { 0% { background-position: -60px 0, 0 0; } 100% { background-position: 180px 0, 0 0; } }
+html[data-intro="playing"] .xp-canvas { z-index: 61; opacity: 1; transition: none; }
+.xp-intro-skip {
+  position: fixed; z-index: 62; bottom: 28px; inset-inline-end: 24px; display: none;
+  padding: 12px 18px; border: 1px solid rgb(254 250 221 / 0.3); color: #FEFADD;
+  font-family: var(--font-mono-nf), ui-monospace, monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  background: rgb(7 43 41 / 0.6);
+}
+.xp-intro-skip:focus-visible { outline: 2px solid #C8A96A; outline-offset: 2px; }
+html[data-intro="pending"] .xp-intro-skip, html[data-intro="playing"] .xp-intro-skip { display: inline-flex; }
+@media (prefers-reduced-motion: reduce) { .xp-intro-bar { animation: none; } }

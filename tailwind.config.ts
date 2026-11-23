@@ -1,10 +1,12 @@
 import type { Config } from "tailwindcss";
+import animate from "tailwindcss-animate";
 
 const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/experience/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -36,10 +38,11 @@ const config: Config = {
         display: ["var(--font-regista)", "Playfair Display", "serif"],
         sans: ["var(--font-jakarta)", "Plus Jakarta Sans", "sans-serif"],
         arabic: ["var(--font-ibm-arabic)", "IBM Plex Sans Arabic", "sans-serif"],
+        mono: ["var(--font-mono-nf)", "ui-monospace", "SFMono-Regular", "monospace"],
       },
     },
   },
-  plugins: [],
+  plugins: [animate],
 };
 
 export default config;

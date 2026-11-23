@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
 import { BRAND_INFO } from "@/data/brandInfo";
 import { getDohaCafeStatus } from "@/utils/dohaTime";
-import { MapPin, Phone, MessageCircle, Star, Navigation, Clock, ShieldCheck, ExternalLink, QrCode } from "lucide-react";
+import { ArrowUpRight, MessageCircle, Phone } from "lucide-react";
+import { LineButton, SectionHeading } from "@/components/editorial";
 
 export const DohaHub: React.FC = () => {
   const { isAr, t } = useLanguage();
@@ -22,165 +22,82 @@ export const DohaHub: React.FC = () => {
   )}`;
 
   return (
-    <section id="hub" className="py-24 px-4 sm:px-6 lg:px-8 bg-brand-green border-t border-surface-green relative">
-      <div className="max-w-7xl mx-auto">
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-green border border-muted-on-green/20 text-xs text-accent-gold mb-4 font-semibold uppercase tracking-wider">
-            <MapPin className="w-3.5 h-3.5" />
-            <span>{t("Doha Destination", "وجهتنا في الدوحة")}</span>
-          </div>
+    <section id="hub" aria-labelledby="hub-title" className="py-28 sm:py-36 px-5 sm:px-10 lg:px-14 bg-[#051F1E] relative">
+      <div className="max-w-6xl mx-auto">
+        <SectionHeading
+          id="hub-title"
+          eyebrow={t("Doha destination", "وجهتنا في الدوحة")}
+          title={t("Visit Our Doha", "تفضل بزيارتنا")}
+          italic={t("flagship & roastery.", "في قلب الدوحة.")}
+          lede={t(
+            "Forest-green calm, freshly ground specialty beans and authentic Qatari hospitality.",
+            "هدوء الأخضر الغابي، عبق البن المحمص طازجاً، وكرم الضيافة القطرية."
+          )}
+        />
 
-          <h2 className="font-display text-3xl sm:text-5xl font-bold text-brand-cream mb-4">
-            {isAr ? "تفضل بزيارتنا في قلب الدوحة" : "Visit Our Doha Flagship & Roastery"}
-          </h2>
+        <div className="grid xp-cols lg:grid-cols-2 gap-x-20 gap-y-16">
+          {/* visit */}
+          <div>
+            <p className="flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.16em] text-brand-cream">
+              <span className={`w-2 h-2 rounded-full ${status.isOpen ? "bg-emerald-400" : "bg-rose-400"}`} aria-hidden="true" />
+              {status.badgeText}
+            </p>
+            <h3 className="font-display text-4xl text-brand-cream mt-6">{t(BRAND_INFO.location.en, BRAND_INFO.location.ar)}</h3>
+            <p className="mt-2 text-[15px] text-brand-cream/70">{t(BRAND_INFO.location.detailedAddress.en, BRAND_INFO.location.detailedAddress.ar)}</p>
 
-          <p className="text-muted-on-green text-sm sm:text-base leading-relaxed">
-            {t(
-              "Step into our serene sanctuary crafted with deep forest green warmth, the soothing aroma of freshly ground specialty beans, and authentic Qatari hospitality.",
-              "تفضل بزيارة مساحتنا المصممة بأناقة الأخضر الغابي، واستمتع بعبق البن المحمص طازجاً وكرم الضيافة القطرية."
-            )}
-          </p>
-        </div>
-
-        {/* 2-Column Hub Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch mb-16">
-          {/* Left Column: Interactive Location & Quick Actions */}
-          <div className="bg-surface-green/80 rounded-3xl p-8 sm:p-10 border border-muted-on-green/20 flex flex-col justify-between shadow-2xl">
-            <div>
-              {/* Live Status Pill */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-green border border-muted-on-green/20 text-xs mb-6">
-                <span
-                  className={`w-2.5 h-2.5 rounded-full ${
-                    status.isOpen ? "bg-emerald-400 animate-pulse" : "bg-rose-400"
-                  }`}
-                />
-                <span className="text-brand-cream font-bold">{status.badgeText}</span>
+            <dl className="mt-8 border-t border-brand-cream/10 text-sm">
+              <div className="flex justify-between gap-6 py-4 border-b border-brand-cream/10">
+                <dt className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted-on-green">{t("Café Hours", "مواعيد الكافيه")}</dt>
+                <dd className="text-brand-cream text-end">{t(BRAND_INFO.hours.displayHours.en, BRAND_INFO.hours.displayHours.ar)}</dd>
               </div>
-
-              <h3 className="font-display text-2xl sm:text-3xl text-brand-cream font-bold mb-3">
-                {t(BRAND_INFO.location.en, BRAND_INFO.location.ar)}
-              </h3>
-
-              <p className="text-sm text-muted-on-green leading-relaxed mb-6">
-                {t(BRAND_INFO.location.detailedAddress.en, BRAND_INFO.location.detailedAddress.ar)}
-              </p>
-
-              {/* Hours Grid */}
-              <div className="bg-brand-green/70 rounded-2xl p-5 mb-8 border border-muted-on-green/15 text-xs text-brand-cream space-y-2">
-                <div className="flex items-center justify-between pb-2 border-b border-muted-on-green/15">
-                  <span className="flex items-center gap-2 text-muted-on-green">
-                    <Clock className="w-4 h-4 text-accent-gold" />
-                    <span>{t("Café Hours", "مواعيد الكافيه")}</span>
-                  </span>
-                  <span className="font-bold">
-                    {t(BRAND_INFO.hours.displayHours.en, BRAND_INFO.hours.displayHours.ar)}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between pt-1 text-[11px] text-muted-on-green">
-                  <span>{t("Event Catering", "ضيافة المناسبات")}</span>
-                  <span className="text-accent-gold font-semibold">{t("24/7 By Reservation", "24/7 بالحجز المسبق")}</span>
-                </div>
+              <div className="flex justify-between gap-6 py-4 border-b border-brand-cream/10">
+                <dt className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted-on-green">{t("Event Catering", "ضيافة المناسبات")}</dt>
+                <dd className="text-accent-gold text-end">{t("24/7 By Reservation", "24/7 بالحجز المسبق")}</dd>
               </div>
-            </div>
+            </dl>
 
-            {/* Quick Action Buttons */}
-            <div className="space-y-3">
-              <a
-                href={BRAND_INFO.location.googleMapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-3.5 px-6 rounded-xl bg-brand-cream text-brand-green font-bold text-sm hover:bg-white transition-all flex items-center justify-center gap-2.5 shadow-md group"
-              >
-                <Navigation className="w-4 h-4 text-brand-green group-hover:scale-110 transition-transform" />
-                <span>{t("Get Directions (Google / Apple Maps)", "الحصول على الاتجاهات (الخرائط)")}</span>
-              </a>
-
+            <div className="mt-8 flex flex-col gap-3">
+              <LineButton href={BRAND_INFO.location.googleMapsUrl} target="_blank" rel="noopener noreferrer" variant="solid">
+                {t("Get Directions (Google / Apple Maps)", "الحصول على الاتجاهات (الخرائط)")}
+              </LineButton>
               <div className="grid grid-cols-2 gap-3">
-                <a
-                  href={`tel:${BRAND_INFO.phone}`}
-                  className="py-3 px-4 rounded-xl bg-brand-green border border-muted-on-green/30 text-brand-cream text-xs font-semibold hover:bg-surface-green transition-colors flex items-center justify-center gap-2"
-                >
-                  <Phone className="w-4 h-4 text-accent-gold" />
+                <LineButton href={`tel:${BRAND_INFO.phone}`} icon={<Phone className="w-4 h-4" aria-hidden="true" />}>
                   <span dir="ltr">{BRAND_INFO.displayPhone}</span>
-                </a>
-
-                <a
-                  href={whatsappConciergeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="py-3 px-4 rounded-xl bg-[#25D366]/20 border border-[#25D366]/40 text-brand-cream text-xs font-semibold hover:bg-[#25D366]/30 transition-colors flex items-center justify-center gap-2"
-                >
-                  <MessageCircle className="w-4 h-4 text-[#25D366]" />
-                  <span>{t("WhatsApp Concierge", "واتساب الإدارة")}</span>
-                </a>
+                </LineButton>
+                <LineButton href={whatsappConciergeUrl} target="_blank" rel="noopener noreferrer" icon={<MessageCircle className="w-4 h-4" aria-hidden="true" />}>
+                  {t("WhatsApp", "واتساب")}
+                </LineButton>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Physical Table Standee Parity (Page 22 of Brand Guide) */}
-          <div
-            id="reviews"
-            className="bg-surface-green/80 rounded-3xl p-8 sm:p-10 border border-muted-on-green/20 flex flex-col justify-between shadow-2xl relative overflow-hidden"
-          >
-            <div>
-              {/* Standee Header */}
-              <div className="text-center mb-8">
-                {/* 5 Stars */}
-                <div className="flex justify-center gap-1.5 text-accent-gold text-lg mb-3">
-                  {"★".repeat(5)}
-                </div>
+          {/* reviews (the café table standee, brand guide p.22) */}
+          <div id="reviews">
+            <p className="font-mono text-[13px] tracking-[0.3em] text-accent-gold" aria-label={t("Five stars", "خمس نجوم")}>
+              ★★★★★
+            </p>
+            <h3 className="font-display text-4xl text-brand-cream mt-5 leading-tight">{isAr ? "هل أعجبتك قهوتنا وخدمتنا؟" : "Happy with our service?"}</h3>
+            <p className="mt-3 text-[15px] leading-relaxed text-brand-cream/70 max-w-md">
+              {t("Help spread the word — review us on Google or Cloutly, as on our café table standees.", "شاركنا رأيك وساعد الآخرين في اكتشاف قهوتنا — قيّمنا عبر جوجل أو كلاوتلي.")}
+            </p>
 
-                <h3 className="font-display text-2xl sm:text-3xl font-bold text-brand-cream mb-2">
-                  {isAr ? "هل أعجبتك قهوتنا وخدمتنا؟" : "Happy with our service?"}
-                </h3>
-
-                <p className="text-xs sm:text-sm text-muted-on-green max-w-sm mx-auto leading-relaxed">
-                  {t(
-                    "Help spread the word. Review us on Google or Cloutly as seen on our café table standees.",
-                    "شاركنا رأيك وساعد الآخرين في اكتشاف قهوتنا. قيّمنا عبر منصة جوجل أو كلاوتلي."
-                  )}
-                </p>
-              </div>
-
-              {/* Table Standee Emblem Representation */}
-              <div className="w-24 h-24 mx-auto mb-6 p-4 rounded-2xl bg-brand-green border border-accent-gold/40 flex items-center justify-center shadow-inner">
-                <QrCode className="w-16 h-16 text-brand-cream" />
-              </div>
-
-              {/* Recent Verified Feedback Quote */}
-              <div className="bg-brand-green/60 p-4 rounded-2xl border border-muted-on-green/15 text-xs text-muted-on-green italic text-center mb-6">
+            <figure className="mt-8 border-s-2 border-accent-gold/60 ps-6">
+              <blockquote className="font-display italic text-xl sm:text-2xl text-brand-cream/90 leading-snug">
                 {t(
-                  "\"The single-origin V60 and the cardamom buns are unmatched in Doha. Their 5L catering box was the highlight of our Friday majlis!\"",
-                  "\"محصول الـ V60 ولفائف الهيل لا مثيل لها في قطر. صندوق القهوة المقطرة 5 لتر أضاف لمسة ضيافة رائعة لمجلسنا!\""
+                  "“The single-origin V60 and the cardamom buns are unmatched in Doha. Their 5L catering box was the highlight of our Friday majlis!”",
+                  "“محصول الـ V60 ولفائف الهيل لا مثيل لها في قطر. صندوق القهوة المقطرة 5 لتر أضاف لمسة ضيافة رائعة لمجلسنا!”"
                 )}
-                <span className="block text-[11px] text-accent-gold not-italic font-bold mt-2">
-                  — Jassim Al-Sulaiti (Doha) ★★★★★
-                </span>
-              </div>
-            </div>
+              </blockquote>
+              <figcaption className="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-on-green">— Jassim Al-Sulaiti (Doha) ★★★★★</figcaption>
+            </figure>
 
-            {/* Direct Review Buttons */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <a
-                href={BRAND_INFO.socials.googleReviews}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="py-3 px-4 rounded-xl bg-brand-cream text-brand-green font-bold text-xs hover:bg-white transition-all flex items-center justify-center gap-2 shadow-md"
-              >
-                <Star className="w-4 h-4 fill-brand-green text-brand-green" />
-                <span>{t("Review on Google", "تقييم عبر Google")}</span>
-              </a>
-
-              <a
-                href={BRAND_INFO.socials.cloutlyReviews}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="py-3 px-4 rounded-xl bg-brand-green border border-muted-on-green/30 text-brand-cream font-semibold text-xs hover:bg-surface-green transition-colors flex items-center justify-center gap-2"
-              >
-                <ExternalLink className="w-4 h-4 text-accent-gold" />
-                <span>{t("Review on Cloutly", "تقييم عبر Cloutly")}</span>
-              </a>
+            <div className="mt-10 grid sm:grid-cols-2 gap-3">
+              <LineButton href={BRAND_INFO.socials.googleReviews} target="_blank" rel="noopener noreferrer" variant="solid">
+                {t("Review on Google", "تقييم عبر Google")}
+              </LineButton>
+              <LineButton href={BRAND_INFO.socials.cloutlyReviews} target="_blank" rel="noopener noreferrer" icon={<ArrowUpRight className="w-4 h-4 rtl:-scale-x-100" aria-hidden="true" />}>
+                {t("Review on Cloutly", "تقييم عبر Cloutly")}
+              </LineButton>
             </div>
           </div>
         </div>

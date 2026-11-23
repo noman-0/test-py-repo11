@@ -1,0 +1,286 @@
+{
+  "source": "Excelsa.pdf",
+  "sourceSha256": "848d02c5902d44e45ce32fdbabb244579027108cfc8f1ec6f7c5785c3be67f1b",
+  "pageSizePx": [
+    3508,
+    2480
+  ],
+  "dpi": 300,
+  "assets": [
+    {
+      "page": 3,
+      "files": [
+        "brand-assets\\excelsa-guide\\logo/excelsa-logo-official-green-on-white.jpg",
+        "brand-assets\\excelsa-guide\\logo/excelsa-logo-official-green-transparent.png"
+      ],
+      "bboxPx": [
+        1391,
+        687,
+        2116,
+        1792
+      ],
+      "use": "Official logo (raster). Web-approved; replace with client vector when supplied."
+    },
+    {
+      "page": 4,
+      "files": [
+        "brand-assets\\excelsa-guide\\logo/excelsa-logo-official-cream-on-green.jpg",
+        "brand-assets\\excelsa-guide\\logo/excelsa-logo-official-cream-transparent.png"
+      ],
+      "bboxPx": [
+        1389,
+        774,
+        2118,
+        1885
+      ],
+      "use": "Official logo (raster). Web-approved; replace with client vector when supplied."
+    },
+    {
+      "page": 1,
+      "files": [
+        "brand-assets\\excelsa-guide\\pages/p01-cover.jpg"
+      ],
+      "bboxPx": [
+        0,
+        0,
+        3508,
+        2480
+      ],
+      "use": "REFERENCE ONLY - Cover - layout/tone reference"
+    },
+    {
+      "page": 5,
+      "files": [
+        "brand-assets\\excelsa-guide\\pages/p05-logo-story.jpg"
+      ],
+      "bboxPx": [
+        0,
+        0,
+        3508,
+        2480
+      ],
+      "use": "REFERENCE ONLY - Logo story text (transcribed in docs)"
+    },
+    {
+      "page": 6,
+      "files": [
+        "brand-assets\\excelsa-guide\\pages/p06-colour-code.jpg"
+      ],
+      "bboxPx": [
+        0,
+        0,
+        3508,
+        2480
+      ],
+      "use": "REFERENCE ONLY - Official palette #072B29 / #FEFADD"
+    },
+    {
+      "page": 7,
+      "files": [
+        "brand-assets\\excelsa-guide\\typography/regista-demo-specimen.jpg"
+      ],
+      "bboxPx": [
+        280,
+        446,
+        3332,
+        2033
+      ],
+      "use": "REFERENCE ONLY - Regista Demo specimen (H1-H4)"
+    },
+    {
+      "page": 11,
+      "files": [
+        "brand-assets\\excelsa-guide\\mockups/p11-paper-cup-with-lid.jpg"
+      ],
+      "bboxPx": [
+        1157,
+        148,
+        2701,
+        2480
+      ],
+      "use": "REFERENCE ONLY - Takeaway paper cup + lid - 3D model reference"
+    },
+    {
+      "page": 12,
+      "files": [
+        "brand-assets\\excelsa-guide\\mockups/p12-paper-cup-wave-stack.jpg"
+      ],
+      "bboxPx": [
+        1052,
+        322,
+        2981,
+        2232
+      ],
+      "use": "REFERENCE ONLY - Stacked paper cups, cream wave band - 3D/pattern reference"
+    },
+    {
+      "page": 13,
+      "files": [
+        "brand-assets\\excelsa-guide\\mockups/p13-cup-carrier.jpg"
+      ],
+      "bboxPx": [
+        771,
+        297,
+        2525,
+        2356
+      ],
+      "use": "REFERENCE ONLY - Arched cup carrier (paper holder) - 3D reference"
+    },
+    {
+      "page": 14,
+      "files": [
+        "brand-assets\\excelsa-guide\\mockups/p14-apron-ray-motif.jpg"
+      ],
+      "bboxPx": [
+        1192,
+        148,
+        2280,
+        2455
+      ],
+      "use": "REFERENCE ONLY - Apron with sun-ray supergraphic - motif reference"
+    },
+    {
+      "page": 17,
+      "files": [
+        "brand-assets\\excelsa-guide\\mockups/p17-kraft-carry-bag.jpg"
+      ],
+      "bboxPx": [
+        1017,
+        124,
+        2560,
+        2480
+      ],
+      "use": "REFERENCE ONLY - Kraft paper carry bag - 3D reference"
+    },
+    {
+      "page": 18,
+      "files": [
+        "brand-assets\\excelsa-guide\\mockups/p18-kraft-coffee-bag.jpg"
+      ],
+      "bboxPx": [
+        1087,
+        198,
+        2420,
+        2356
+      ],
+      "use": "REFERENCE ONLY - Kraft coffee bean bag - 3D reference"
+    },
+    {
+      "page": 19,
+      "files": [
+        "brand-assets\\excelsa-guide\\mockups/p19-ceramic-cup-saucer.jpg"
+      ],
+      "bboxPx": [
+        736,
+        620,
+        2876,
+        2058
+      ],
+      "use": "REFERENCE ONLY - Green ceramic cup & saucer - 3D reference"
+    },
+    {
+      "page": 20,
+      "files": [
+        "brand-assets\\excelsa-guide\\mockups/p20-rollup-banner.jpg"
+      ],
+      "bboxPx": [
+        1157,
+        173,
+        2631,
+        2356
+      ],
+      "use": "REFERENCE ONLY - Roll-up banner with copper frame - reference"
+    },
+    {
+      "page": 20,
+      "files": [
+        "brand-assets\\excelsa-guide\\textures/p20-coffee-beans-photo.jpg"
+      ],
+      "bboxPx": [
+        1368,
+        409,
+        2174,
+        1103
+      ],
+      "use": "REFERENCE ONLY - Roasted bean photo (from banner) - texture/mood reference"
+    },
+    {
+      "page": 21,
+      "files": [
+        "brand-assets\\excelsa-guide\\mockups/p21-kraft-carton-box.jpg"
+      ],
+      "bboxPx": [
+        912,
+        198,
+        2806,
+        1860
+      ],
+      "use": "REFERENCE ONLY - Kraft carton box - catering box 3D reference"
+    },
+    {
+      "page": 22,
+      "files": [
+        "brand-assets\\excelsa-guide\\mockups/p22-review-standee.jpg"
+      ],
+      "bboxPx": [
+        1087,
+        99,
+        2631,
+        2256
+      ],
+      "use": "REFERENCE ONLY - Google/Cloutly QR review standee - matches #reviews section"
+    },
+    {
+      "page": 24,
+      "files": [
+        "brand-assets\\excelsa-guide\\mockups/p24-hoarding-iced-latte.jpg"
+      ],
+      "bboxPx": [
+        982,
+        570,
+        2981,
+        1909
+      ],
+      "use": "REFERENCE ONLY - Billboard with iced-latte pour photo - mood reference only"
+    },
+    {
+      "page": 25,
+      "files": [
+        "brand-assets\\excelsa-guide\\mockups/p25-green-carry-bag.jpg"
+      ],
+      "bboxPx": [
+        456,
+        99,
+        2876,
+        1934
+      ],
+      "use": "REFERENCE ONLY - Green premium carry bag - 3D reference"
+    },
+    {
+      "page": 26,
+      "files": [
+        "brand-assets\\excelsa-guide\\mockups/p26-round-sign-board.jpg"
+      ],
+      "bboxPx": [
+        806,
+        620,
+        3016,
+        1934
+      ],
+      "use": "REFERENCE ONLY - Round projecting sign board - storefront 3D reference"
+    },
+    {
+      "page": 27,
+      "files": [
+        "brand-assets\\excelsa-guide\\mockups/p27-glass-sticker.jpg"
+      ],
+      "bboxPx": [
+        1333,
+        421,
+        2315,
+        1959
+      ],
+      "use": "REFERENCE ONLY - Frosted glass-door logo sticker - storefront reference"
+    }
+  ]
+}

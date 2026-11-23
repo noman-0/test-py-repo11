@@ -10,36 +10,39 @@ import { AtmosphereGrid } from "@/components/sections/AtmosphereGrid";
 import { DohaHub } from "@/components/sections/DohaHub";
 import { Footer } from "@/components/layout/Footer";
 import { OneTapActionBar } from "@/components/layout/OneTapActionBar";
+import { ExperienceRoot } from "@/experience/ExperienceRoot";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function HomePage() {
+  const { t } = useLanguage();
   return (
-    <main className="min-h-screen bg-brand-green flex flex-col relative selection:bg-accent-gold selection:text-brand-green">
-      {/* Sticky Navigation Header with Live Status & Lang Toggle */}
+    <>
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:start-3 focus:z-[100] focus:px-4 focus:py-3 focus:bg-brand-cream focus:text-brand-green font-mono text-xs uppercase tracking-[0.16em]"
+      >
+        {t("Skip to content", "انتقل إلى المحتوى")}
+      </a>
+
+      {/* Immersive single-screen 3D layer: active only with WebGL + motion (classic site is the fallback) */}
+      <ExperienceRoot />
+
+      {/* Header with live Doha status, language, 3D/sound settings and the site index */}
       <Navbar />
 
-      {/* Hero Flagship Intro */}
-      <Hero />
+      {/* In 3D mode <main> becomes the "reading view" for the current area */}
+      <main id="main" className="min-h-screen bg-brand-green flex flex-col relative">
+        <Hero />
+        <BrandStorySymbolism />
+        <TastingMenu />
+        <CateringWizard />
+        <AtmosphereGrid />
+        <DohaHub />
+        <Footer />
+      </main>
 
-      {/* Brand Story & Logo Symbolism Breakdown */}
-      <BrandStorySymbolism />
-
-      {/* Editorial Tasting Menu & Discovery Modal */}
-      <TastingMenu />
-
-      {/* Event & Bulk Catering Booking Wizard (No Gateway) */}
-      <CateringWizard />
-
-      {/* Café Atmosphere & Packaging Craft Grid */}
-      <AtmosphereGrid />
-
-      {/* Doha Hub Location, Actions & Table Standee Reviews */}
-      <DohaHub />
-
-      {/* Global MoCI Compliant Footer */}
-      <Footer />
-
-      {/* Persistent Mobile One-Tap Action Bar */}
+      {/* Mobile one-tap actions (classic site) */}
       <OneTapActionBar />
-    </main>
+    </>
   );
 }
