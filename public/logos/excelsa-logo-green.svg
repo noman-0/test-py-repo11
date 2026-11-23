@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 480" width="100%" height="100%" fill="none">
+  <!-- Outer Arch Frame -->
+  <path d="M 60 180 A 90 90 0 0 1 240 180 L 240 370 A 90 90 0 0 1 60 370 Z" 
+        stroke="#072B29" stroke-width="4.5" fill="none" />
+  
+  <!-- Sunrise Rays -->
+  <path d="M 150 120 L 150 82" stroke="#072B29" stroke-width="5" stroke-linecap="round" />
+  <path d="M 132 125 L 110 92" stroke="#072B29" stroke-width="4.5" stroke-linecap="round" />
+  <path d="M 168 125 L 190 92" stroke="#072B29" stroke-width="4.5" stroke-linecap="round" />
+  <path d="M 118 135 L 82 118" stroke="#072B29" stroke-width="4" stroke-linecap="round" />
+  <path d="M 182 135 L 218 118" stroke="#072B29" stroke-width="4" stroke-linecap="round" />
+  
+  <!-- Horizontal Horizon Line -->
+  <line x1="86" y1="148" x2="214" y2="148" stroke="#072B29" stroke-width="4.5" />
+  
+  <!-- Center Coffee Teardrop -->
+  <path d="M 150 148 C 150 148 116 195 116 226 A 34 34 0 0 0 184 226 C 184 195 150 148 150 148 Z" 
+        stroke="#072B29" stroke-width="4" fill="none" />
+  
+  <!-- Stylized Coffee Bean Inside Drop -->
+  <ellipse cx="150" cy="226" rx="16" ry="20" stroke="#072B29" stroke-width="3" fill="#FEFADD" transform="rotate(-15 150 226)" />
+  <path d="M 148 208 Q 154 226 148 244" stroke="#072B29" stroke-width="2.5" fill="none" />
+
+  <!-- EXCELSA Brand Name -->
+  <text x="150" y="306" text-anchor="middle" font-family="'Playfair Display', 'Regista Demo', serif" font-size="28" font-weight="700" letter-spacing="3" fill="#072B29">EXCELSA</text>
+  
+  <!-- Subtitle -->
+  <text x="150" y="324" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="9" font-weight="600" letter-spacing="2.5" fill="#C8A96A">SPECIALITY COFFEE</text>
+  
+  <!-- Standardized Arabic Brand Name -->
+  <text x="150" y="348" text-anchor="middle" font-family="'IBM Plex Sans Arabic', 'Tajawal', sans-serif" font-size="14" font-weight="500" fill="#072B29">اكسالسا كافي</text>
+</svg>
